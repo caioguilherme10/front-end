@@ -29,6 +29,9 @@ const styles = {
 function SimpleCard(props) {
     const { classes } = props;
 
+
+    //window.location.href = "http://localhost:3000/Cadastro"
+
     const nome = 'Nome';
     const email1 = 'Email';
     const buttonname = 'Confimar';
@@ -50,21 +53,25 @@ function SimpleCard(props) {
         setSenha(event);
     };
 
-    FirebaseAuth.onAuthStateChanged(firebaseUser =>{
-        if(firebaseUser){
-            console.log('true')
+    const execute = () => {
+        FirebaseAuth.onAuthStateChanged(firebaseUser =>{
+            if(firebaseUser){
+                console.log('true')
 
-            localStorage.setItem("userName", name);
+                localStorage.setItem("userName", name);
+                localStorage.setItem("user", true);
 
-            FirebaseDB.ref('users/' + firebaseUser.uid).set({
-                name : name
-            });
+                FirebaseDB.ref('users/' + firebaseUser.uid).set({
+                    name : name
+                });
 
-            FirebaseAuth.signOut();
-        }else{
-            console.log('false')
-        }
-    });
+                window.location.href = "http://localhost:3000/Principal"
+                //FirebaseAuth.signOut();
+            }else{
+                console.log('false')
+            }
+        });
+    };
 
     const handleClick = () => {
 
@@ -72,6 +79,7 @@ function SimpleCard(props) {
             swal("Preencha os campos vazios!")
         }else{
             FirebaseAuth.createUserWithEmailAndPassword(email, senha).then(success => {
+                execute();
                 swal("Cadastro", "feito com sucesso!", "success");
             }).catch(error => {
                 swal("Cadastro","Erro a Cadastrar!", "error");

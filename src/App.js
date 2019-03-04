@@ -8,6 +8,7 @@ import Login from './pages/Login';
 import Principal from './pages/Principal';
 
 class App extends Component {
+
   render() {
     return (
       <BrowserRouter>

@@ -28,6 +28,8 @@ const styles = {
 function SimpleCard(props) {
     const { classes } = props;
 
+    //window.location.href = "http://localhost:3000/"
+
     const email1 = 'Email';
     const buttonname = 'Confimar';
     const cadastrar = 'Cadastrar';
@@ -43,22 +45,26 @@ function SimpleCard(props) {
         setSenha(event);
     };
 
-    FirebaseAuth.onAuthStateChanged(firebaseUser =>{
-        if(firebaseUser){
-            console.log('true')
+    const logar = () => {
+        FirebaseAuth.onAuthStateChanged(firebaseUser =>{
+            if(firebaseUser){
+                console.log('true')
 
-            const get = FirebaseDB.ref().child('users/' + firebaseUser.uid);
+                const get = FirebaseDB.ref().child('users/' + firebaseUser.uid);
 
-            get.once('value').then(function(snapshot) {
-                let name = snapshot.val().name;
-                localStorage.setItem("userName", name);
-            });
+                get.once('value').then(function(snapshot) {
+                    let name = snapshot.val().name;
+                    localStorage.setItem("userName", name);
+                    localStorage.setItem("user", true);
+                });
 
-            FirebaseAuth.signOut();
-        }else{
-            console.log('false')
-        }
-    });
+                window.location.href = "http://localhost:3000/Principal"
+                //FirebaseAuth.signOut();
+            }else{
+                console.log('false')
+            }
+        });
+    };
 
     const handleClick = () => {
 
@@ -66,6 +72,7 @@ function SimpleCard(props) {
             swal("Preencha os campos vazios!")
         }else{
             FirebaseAuth.signInWithEmailAndPassword(email, senha).then(success => {
+                logar();
                 swal("Login", "feito com sucesso!", "success");
             }).catch(error => {
                 swal("Login","Erro a Logar!", "error");

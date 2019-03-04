@@ -39,7 +39,7 @@ const styles = {
       <div className={classes.root}>
         <FormControl fullWidth>
           <InputLabel
-            htmlFor="custom-css-standard-input"
+            htmlFor={nome}
             //classes={{
             //  root: classes.cssLabel,
             //  focused: classes.cssFocused,
@@ -48,7 +48,7 @@ const styles = {
             {nome}
           </InputLabel>
           <Input
-            id="custom-css-standard-input"
+            id={nome}
             //classes={{
             //  underline: classes.cssUnderline,
             //}}

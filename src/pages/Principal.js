@@ -18,8 +18,15 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import InboxIcon from '@material-ui/icons/AccountCircle';
 import MailIcon from '@material-ui/icons/Mail';
+import Grid from '@material-ui/core/Grid';
+import Card from '@material-ui/core/Card';
+import CardActions from '@material-ui/core/CardActions';
+import CardContent from '@material-ui/core/CardContent';
+import MenuItem from '@material-ui/core/MenuItem';
+import TextField from '@material-ui/core/TextField';
 
 import Button from '../components/button';
+import { FirebaseAuth } from '../firebase/index';
 
 const drawerWidth = 240;
 
@@ -78,11 +85,48 @@ const styles = theme => ({
     }),
     marginLeft: 0,
   },
+  textField: {
+    //marginLeft: theme.spacing.unit,
+    //marginRight: theme.spacing.unit,
+    //width: 200,
+  },
+  menu: {
+    //width: 200,
+  },
 });
+
+const currencies = [
+  {
+    value: 'IFPB',
+    label: 'IFPB',
+  },
+  {
+    value: 'UFCG',
+    label: 'UFCG',
+  },
+  {
+    value: 'FSM',
+    label: 'FSM',
+  },
+  {
+    value: 'OUTROS',
+    label: 'OUTROS',
+  },
+  {
+    value: 'EECITC',
+    label: 'EECITC',
+  },
+];
+
 
 class PersistentDrawerLeft extends React.Component {
   state = {
     open: false,
+    currency: 'OUTROS',
+  };
+
+  componentWillMount () {
+
   };
 
   handleDrawerOpen = () => {
@@ -93,10 +137,34 @@ class PersistentDrawerLeft extends React.Component {
     this.setState({ open: false });
   };
 
+  handleClick = () => {
+    localStorage.removeItem("userName");
+    localStorage.setItem("user", false);
+    FirebaseAuth.signOut();
+    window.location.href = "http://localhost:3000/"
+  };
+
+  handleChange = name => event => {
+    this.setState({ [name]: event.target.value });
+  };
+
+  handleClickI = () => {
+
+  };
+
   render() {
     const { classes, theme } = this.props;
     const { open } = this.state;
     const name = 'Sair';
+    const nameButton = 'Inscreva-se';
+
+    const style = {
+      padding: '50px 0px 0px',
+    }
+
+    const style1 = {
+      alignItems: 'center',
+    }
 
     return (
       <div className={classes.root}>
@@ -160,31 +228,56 @@ class PersistentDrawerLeft extends React.Component {
           })}
         >
           <div className={classes.drawerHeader} />
-          <Typography paragraph>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-            incididunt ut labore et dolore magna aliqua. Rhoncus dolor purus non enim praesent
-            elementum facilisis leo vel. Risus at ultrices mi tempus imperdiet. Semper risus in
-            hendrerit gravida rutrum quisque non tellus. Convallis convallis tellus id interdum
-            velit laoreet id donec ultrices. Odio morbi quis commodo odio aenean sed adipiscing.
-            Amet nisl suscipit adipiscing bibendum est ultricies integer quis. Cursus euismod quis
-            viverra nibh cras. Metus vulputate eu scelerisque felis imperdiet proin fermentum leo.
-            Mauris commodo quis imperdiet massa tincidunt. Cras tincidunt lobortis feugiat vivamus
-            at augue. At augue eget arcu dictum varius duis at consectetur lorem. Velit sed
-            ullamcorper morbi tincidunt. Lorem donec massa sapien faucibus et molestie ac.
-          </Typography>
-          <Typography paragraph>
-            Consequat mauris nunc congue nisi vitae suscipit. Fringilla est ullamcorper eget nulla
-            facilisi etiam dignissim diam. Pulvinar elementum integer enim neque volutpat ac
-            tincidunt. Ornare suspendisse sed nisi lacus sed viverra tellus. Purus sit amet volutpat
-            consequat mauris. Elementum eu facilisis sed odio morbi. Euismod lacinia at quis risus
-            sed vulputate odio. Morbi tincidunt ornare massa eget egestas purus viverra accumsan in.
-            In hendrerit gravida rutrum quisque non tellus orci ac. Pellentesque nec nam aliquam sem
-            et tortor. Habitant morbi tristique senectus et. Adipiscing elit duis tristique
-            sollicitudin nibh sit. Ornare aenean euismod elementum nisi quis eleifend. Commodo
-            viverra maecenas accumsan lacus vel facilisis. Nulla posuere sollicitudin aliquam
-            ultrices sagittis orci a.
-          </Typography>
-          <Button name={name}></Button>
+            <div style={style}>
+              <Grid container spacing={8}>
+                <Grid item sm={6}>
+                  <Card>
+                    <CardContent>
+                      <TextField
+                        id="standard-select-currency"
+                        select
+                        label="Select"
+                        fullWidth
+                        className={classes.textField}
+                        value={this.state.currency}
+                        onChange={this.handleChange('currency')}
+                        SelectProps={{
+                          MenuProps: {
+                            className: classes.menu,
+                          },
+                        }}
+                        //helperText="Please select your currency"
+                        //margin="normal"
+                      >
+                      {currencies.map(option => (
+                        <MenuItem key={option.value} value={option.value}>
+                          {option.label}
+                        </MenuItem>
+                      ))}
+                      </TextField>
+                    </CardContent>
+                    <div style={style1}>
+                    <CardActions root={style1}>
+                      <div style={style1}>
+                        <Button name={nameButton} handleClick={this.handleClickI}></Button>
+                      </div>
+                    </CardActions>
+                    </div>
+                  </Card>
+                </Grid>
+                <Grid item sm={6}>
+                  <Card>
+                    <CardContent>
+                
+                    </CardContent>
+                    <CardActions>
+  
+                    </CardActions>
+                  </Card>
+                </Grid>
+              </Grid>
+            </div>
+            <Button name={name} handleClick={this.handleClick}></Button>          
         </main>
       </div>
     );
