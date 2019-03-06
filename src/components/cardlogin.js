@@ -33,6 +33,7 @@ function SimpleCard(props) {
     const email1 = 'Email';
     const buttonname = 'Confimar';
     const cadastrar = 'Cadastrar';
+    const corbutton = 'primary';
 
     const [email, setEmail] = useState('');
     const [senha, setSenha] = useState('');
@@ -102,7 +103,7 @@ function SimpleCard(props) {
                     </Grid>
                     <Grid item sm={9}>
                         <div className={classes.button}>
-                            <ButtonP name={buttonname} handleClick={handleClick}></ButtonP>
+                            <ButtonP name={buttonname} cor={corbutton} handleClick={handleClick}></ButtonP>
                         </div>
                     </Grid>
                 </Grid>

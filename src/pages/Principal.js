@@ -24,9 +24,10 @@ import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import MenuItem from '@material-ui/core/MenuItem';
 import TextField from '@material-ui/core/TextField';
+import ListSubheader from '@material-ui/core/ListSubheader';
 
 import Button from '../components/button';
-import { FirebaseAuth } from '../firebase/index';
+import { FirebaseDB , FirebaseAuth } from '../firebase/index';
 
 const drawerWidth = 240;
 
@@ -93,6 +94,21 @@ const styles = theme => ({
   menu: {
     //width: 200,
   },
+  root2: {
+    width: '100%',
+    maxWidth: 360,
+    backgroundColor: theme.palette.background.paper,
+    position: 'relative',
+    overflow: 'auto',
+    maxHeight: 300,
+  },
+  listSection: {
+    backgroundColor: 'inherit',
+  },
+  ul: {
+    backgroundColor: 'inherit',
+    padding: 0,
+  },
 });
 
 const currencies = [
@@ -120,10 +136,45 @@ const currencies = [
 
 
 class PersistentDrawerLeft extends React.Component {
-  state = {
-    open: false,
-    currency: 'OUTROS',
-  };
+  constructor (){
+    super()
+    this.state = {
+      open: false,
+      currency: 'OUTROS',
+      filaName: 'fila',
+      ordemFila: [],
+      filaOUTROS: [],
+      filaUFCG: [],
+      filaFSM: [],
+      filaEECITC: [],
+      filaIFPB: [],
+      verResultado: false
+    };
+
+    this.handleClickI = this.handleClickI.bind(this);
+  
+  }
+
+  names = (sectionId) => {
+    let namess = `${this.state.filaName}${sectionId}`;
+    let array = [];
+    if(namess === 'filaOUTROS'){
+      array = this.state.filaOUTROS;
+    }
+    if(namess === 'filaUFCG'){
+      array = this.state.filaUFCG;
+    }
+    if(namess === 'filaFSM'){
+      array = this.state.filaFSM;
+    }
+    if(namess === 'filaEECITC'){
+      array = this.state.filaEECITC;
+    }
+    if(namess === 'filaIFPB'){
+      array = this.state.filaIFPB;
+    }
+    return array;
+  } 
 
   componentWillMount () {
 
@@ -148,7 +199,219 @@ class PersistentDrawerLeft extends React.Component {
     this.setState({ [name]: event.target.value });
   };
 
-  handleClickI = () => {
+  async handleClickI(){
+
+    const self = this
+    const nome = localStorage.getItem('userName');
+    const nome3 = this.state.currency;
+
+    let array2 = ['' + nome];
+
+    await this.setState({
+      filaOUTROS: [],
+      filaUFCG: [],
+      filaFSM: [],
+      filaEECITC: [],
+      filaIFPB: []
+    });
+
+    if(nome3 === 'OUTROS'){
+      await FirebaseDB.ref('fila/filaOUTROS').once('value', function(snapshot) {
+        snapshot.forEach(function(childSnapshot) {
+          let array = ['' + childSnapshot.val()];
+          self.setState({
+            filaOUTROS: self.state.filaOUTROS.concat(array),
+          });
+        });
+      });
+      await this.setState({
+        filaOUTROS: self.state.filaOUTROS.concat(array2),
+      });
+
+      let fila1 = this.state.filaOUTROS;
+      let filaL = this.state.filaOUTROS.length;
+      let fila2 = [];
+
+      for(let i=0; i<filaL; i++){
+        let x = fila1[Math.floor(Math.random()*fila1.length)];
+        fila2.push(x);
+        let a = fila1.indexOf(x);
+        fila1.splice(a,1);
+      }
+      //falta o TRANSACTION
+      FirebaseDB.ref('fila/-L_FinAVVvA0oeQD9tpR').set({
+        filaOUTROS : fila2,
+      });
+
+    }
+    if(nome3 === 'UFCG'){
+      await FirebaseDB.ref('fila/filaUFCG').once('value', function(snapshot) {
+        snapshot.forEach(function(childSnapshot) {
+          let array = ['' + childSnapshot.val()];
+          self.setState({
+            filaUFCG: self.state.filaUFCG.concat(array),
+          });
+        });
+      });
+      await this.setState({
+        filaUFCG: self.state.filaUFCG.concat(array2),
+      });
+
+      let fila1 = this.state.filaUFCG;
+      let filaL = this.state.filaUFCG.length;
+      let fila2 = [];
+
+      for(let i=0; i<filaL; i++){
+        let x = fila1[Math.floor(Math.random()*fila1.length)];
+        fila2.push(x);
+        let a = fila1.indexOf(x);
+        fila1.splice(a,1);
+      }
+
+      FirebaseDB.ref('fila').push({
+        filaUFCG : fila2,
+      });
+      //falta o TRANSACTION
+      //FirebaseDB.ref('fila/-L_FinAVVvA0oeQD9tpR').set({
+      //  filaUFCG : fila2,
+      //});
+      
+    }
+    if(nome3 === 'FSM'){
+      
+    }
+    if(nome3 === 'EECITC'){
+      
+    }
+    if(nome3 === 'IFPB'){
+      
+    }
+
+    // pego a list do banco , add elemento a list, length da list , random no length  return um numero , numero acesso um item da lista , coloco o item nova lista , atualizo a lista
+
+    /*let startupX = ['Uber', 'Google', 'Amazon', 'Apple', 'Facebook', 'Twitter'];
+    let startupY = ['Slack', 'Trello', 'Tesla', 'Hyperloop', 'Harvest'];
+
+    let filaName = 'filaOUTROS';
+
+    let ordemFila = ['OUTROS', 'UFCG' , 'FSM' , 'EECITC' , 'IFPB'];
+    let filaOUTROS = ['nameO1', 'nameU', 'nameT', 'nameR', 'nameO2' , 'nameS'];
+    let filaUFCG = ['nameU', 'nameF', 'nameC', 'nameG'];
+    let filaFSM = ['nameF', 'nameS', 'nameM'];
+    let filaEECITC = ['nameE1', 'nameE2', 'nameC1', 'nameI', 'nameT' , 'nameC2'];
+    let filaIFPB = ['nameI', 'nameF', 'nameP', 'nameB'];*/
+    
+    /*FirebaseDB.ref('ordemfila').set({
+      ordemFila : ordemFila
+    });
+
+    FirebaseDB.ref('fila').set({
+      filaOUTROS : filaOUTROS,
+      filaUFCG : filaUFCG,
+      filaFSM : filaFSM,
+      filaEECITC : filaEECITC,
+      filaIFPB : filaIFPB
+    });
+
+    FirebaseDB.ref('ordemfila').once('value').then(function(snapshot) {
+      ordemFila = snapshot.val();
+    });
+
+    console.log(ordemFila);
+
+    FirebaseDB.ref('fila/' + filaName).once('value').then(function(snapshot) {
+      filaOUTROS = snapshot.val();
+    });
+
+    console.log(filaOUTROS);*/
+
+    /*let lengthX = startupX.length;
+    let lengthY = startupY.length;
+
+    let newstartupX = [];
+    let newstartupY = [];
+
+    for(let i=0; i<lengthX; i++){
+      let x = startupX[Math.floor(Math.random()*startupX.length)];
+      newstartupX.push(x);
+      let a = startupX.indexOf(x);
+      startupX.splice(a,1);
+    }
+
+    for(let i=0; i<lengthY; i++){
+      let y = startupY[Math.floor(Math.random()*startupY.length)];
+      newstartupY.push(y);
+      let a = startupY.indexOf(y);
+      startupY.splice(a,1);
+    }
+
+    console.log(newstartupX);
+    console.log(newstartupY);*/
+
+  };
+
+  handleClickR = () => {
+    const self = this
+
+    FirebaseDB.ref('ordemfila').once('value', function(snapshot) {
+      snapshot.forEach(function(childSnapshot) {
+        childSnapshot.forEach((values) => {
+          let array = ['' + values.val()];
+          self.setState({
+            ordemFila: self.state.ordemFila.concat(array),
+          })
+        });
+      });;
+    });
+
+    FirebaseDB.ref('fila/-L_FinAVVvA0oeQD9tpR').child('filaOUTROS').once('value', function(snapshot) {
+      snapshot.forEach(function(childSnapshot) {
+        let array = ['' + childSnapshot.val()];
+        self.setState({
+          filaOUTROS: self.state.filaOUTROS.concat(array),
+        });
+      });
+    });
+    
+    FirebaseDB.ref('fila/filaUFCG').once('value', function(snapshot) {
+      snapshot.forEach(function(childSnapshot) {
+        let array = ['' + childSnapshot.val()];
+        self.setState({
+          filaUFCG: self.state.filaUFCG.concat(array),
+        });
+      });
+    });
+
+    FirebaseDB.ref('fila/filaFSM').once('value', function(snapshot) {
+      snapshot.forEach(function(childSnapshot) {
+        let array = ['' + childSnapshot.val()];
+        self.setState({
+          filaFSM: self.state.filaFSM.concat(array),
+        });
+      });
+    });
+
+    FirebaseDB.ref('fila/filaEECITC').once('value', function(snapshot) {
+      snapshot.forEach(function(childSnapshot) {
+        let array = ['' + childSnapshot.val()];
+        self.setState({
+          filaEECITC: self.state.filaEECITC.concat(array),
+        });
+      });
+    });
+
+    FirebaseDB.ref('fila/filaIFPB').once('value', function(snapshot) {
+      snapshot.forEach(function(childSnapshot) {
+        let array = ['' + childSnapshot.val()];
+        self.setState({
+          filaIFPB: self.state.filaIFPB.concat(array),
+        });
+      });
+    });
+
+    this.setState({
+      verResultado: true,
+    })
 
   };
 
@@ -157,12 +420,16 @@ class PersistentDrawerLeft extends React.Component {
     const { open } = this.state;
     const name = 'Sair';
     const nameButton = 'Inscreva-se';
+    const corbutton = 'secondary';
+    const corbuttonS = 'primary';
+    const nameButtonR = 'Resultado';
 
     const style = {
       padding: '50px 0px 0px',
     }
 
     const style1 = {
+      margin: 'auto',
       alignItems: 'center',
     }
 
@@ -256,28 +523,41 @@ class PersistentDrawerLeft extends React.Component {
                       ))}
                       </TextField>
                     </CardContent>
-                    <div style={style1}>
-                    <CardActions root={style1}>
+                    <CardActions>
                       <div style={style1}>
-                        <Button name={nameButton} handleClick={this.handleClickI}></Button>
+                        <Button name={nameButton} cor={corbutton} handleClick={this.handleClickI}></Button>
                       </div>
                     </CardActions>
-                    </div>
                   </Card>
                 </Grid>
                 <Grid item sm={6}>
                   <Card>
                     <CardContent>
-                
+                      {this.state.verResultado  && <List className={classes.root2} subheader={<li />}>
+                        {this.state.ordemFila.map(sectionId => (
+                          <li key={`section-${sectionId}`} className={classes.listSection}>
+                            <ul className={classes.ul}>
+                              <ListSubheader>{`${sectionId}`}</ListSubheader>
+                              {this.names(sectionId).map(item => (
+                                <ListItem key={`item-${sectionId}-${item}`}>
+                                  <ListItemText primary={`${item}`} />
+                                </ListItem>
+                              ))}
+                            </ul>
+                          </li>
+                        ))}
+                      </List>}
                     </CardContent>
                     <CardActions>
-  
+                      <div style={style1}>
+                        <Button name={nameButtonR} cor={corbuttonS} handleClick={this.handleClickR}></Button>
+                      </div>
                     </CardActions>
                   </Card>
                 </Grid>
               </Grid>
             </div>
-            <Button name={name} handleClick={this.handleClick}></Button>          
+            <Button name={name} cor={corbuttonS} handleClick={this.handleClick}></Button>          
         </main>
       </div>
     );

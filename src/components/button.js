@@ -8,10 +8,10 @@ const styles = theme => ({
 });
 
 function ContainedButtons(props) {
-  const { name , handleClick } = props;
+  const { cor , name , handleClick } = props;
   return (
     <div>
-      <Button variant="contained" color="primary" onClick={handleClick}>
+      <Button variant="contained" color={cor} onClick={handleClick}>
         {name}
       </Button>
     </div>
