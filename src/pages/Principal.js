@@ -216,7 +216,7 @@ class PersistentDrawerLeft extends React.Component {
     });
 
     if(nome3 === 'OUTROS'){
-      await FirebaseDB.ref('fila/filaOUTROS').once('value', function(snapshot) {
+      await FirebaseDB.ref('fila/-L_FinAVVvA0oeQD9tpR').child('filaOUTROS').once('value', function(snapshot) {
         snapshot.forEach(function(childSnapshot) {
           let array = ['' + childSnapshot.val()];
           self.setState({
@@ -245,7 +245,7 @@ class PersistentDrawerLeft extends React.Component {
 
     }
     if(nome3 === 'UFCG'){
-      await FirebaseDB.ref('fila/filaUFCG').once('value', function(snapshot) {
+      await FirebaseDB.ref('fila/-L_Iw86swPN6dJzbhrFW').child('filaUFCG').once('value', function(snapshot) {
         snapshot.forEach(function(childSnapshot) {
           let array = ['' + childSnapshot.val()];
           self.setState({
@@ -268,85 +268,102 @@ class PersistentDrawerLeft extends React.Component {
         fila1.splice(a,1);
       }
 
-      FirebaseDB.ref('fila').push({
+      //falta o TRANSACTION
+      FirebaseDB.ref('fila/-L_Iw86swPN6dJzbhrFW').set({
         filaUFCG : fila2,
       });
-      //falta o TRANSACTION
-      //FirebaseDB.ref('fila/-L_FinAVVvA0oeQD9tpR').set({
-      //  filaUFCG : fila2,
-      //});
       
     }
     if(nome3 === 'FSM'){
+      await FirebaseDB.ref('fila/-L_KvHMY5rrXBjwpobxh').child('filaFSM').once('value', function(snapshot) {
+        snapshot.forEach(function(childSnapshot) {
+          let array = ['' + childSnapshot.val()];
+          self.setState({
+            filaFSM: self.state.filaFSM.concat(array),
+          });
+        });
+      });
+      await this.setState({
+        filaFSM: self.state.filaFSM.concat(array2),
+      });
+
+      let fila1 = this.state.filaFSM;
+      let filaL = this.state.filaFSM.length;
+      let fila2 = [];
+
+      for(let i=0; i<filaL; i++){
+        let x = fila1[Math.floor(Math.random()*fila1.length)];
+        fila2.push(x);
+        let a = fila1.indexOf(x);
+        fila1.splice(a,1);
+      }
+
+      //falta o TRANSACTION
+      FirebaseDB.ref('fila/-L_KvHMY5rrXBjwpobxh').set({
+        filaFSM : fila2,
+      });
       
     }
     if(nome3 === 'EECITC'){
+      await FirebaseDB.ref('fila/-L_KwQCWNkNa7l8csfIF').child('filaEECITC').once('value', function(snapshot) {
+        snapshot.forEach(function(childSnapshot) {
+          let array = ['' + childSnapshot.val()];
+          self.setState({
+            filaEECITC: self.state.filaEECITC.concat(array),
+          });
+        });
+      });
+      await this.setState({
+        filaEECITC: self.state.filaEECITC.concat(array2),
+      });
+
+      let fila1 = this.state.filaEECITC;
+      let filaL = this.state.filaEECITC.length;
+      let fila2 = [];
+
+      for(let i=0; i<filaL; i++){
+        let x = fila1[Math.floor(Math.random()*fila1.length)];
+        fila2.push(x);
+        let a = fila1.indexOf(x);
+        fila1.splice(a,1);
+      }
+
+      //falta o TRANSACTION
+      FirebaseDB.ref('fila/-L_KwQCWNkNa7l8csfIF').set({
+        filaEECITC : fila2,
+      });
       
     }
     if(nome3 === 'IFPB'){
+      await FirebaseDB.ref('fila/-L_KwSbgIDFLGrDavADl').child('filaIFPB').once('value', function(snapshot) {
+        snapshot.forEach(function(childSnapshot) {
+          let array = ['' + childSnapshot.val()];
+          self.setState({
+            filaIFPB: self.state.filaIFPB.concat(array),
+          });
+        });
+      });
+      await this.setState({
+        filaIFPB: self.state.filaIFPB.concat(array2),
+      });
+
+      let fila1 = this.state.filaIFPB;
+      let filaL = this.state.filaIFPB.length;
+      let fila2 = [];
+
+      for(let i=0; i<filaL; i++){
+        let x = fila1[Math.floor(Math.random()*fila1.length)];
+        fila2.push(x);
+        let a = fila1.indexOf(x);
+        fila1.splice(a,1);
+      }
+
+      //falta o TRANSACTION
+      FirebaseDB.ref('fila/-L_KwSbgIDFLGrDavADl').set({
+        filaIFPB : fila2,
+      });
       
     }
-
-    // pego a list do banco , add elemento a list, length da list , random no length  return um numero , numero acesso um item da lista , coloco o item nova lista , atualizo a lista
-
-    /*let startupX = ['Uber', 'Google', 'Amazon', 'Apple', 'Facebook', 'Twitter'];
-    let startupY = ['Slack', 'Trello', 'Tesla', 'Hyperloop', 'Harvest'];
-
-    let filaName = 'filaOUTROS';
-
-    let ordemFila = ['OUTROS', 'UFCG' , 'FSM' , 'EECITC' , 'IFPB'];
-    let filaOUTROS = ['nameO1', 'nameU', 'nameT', 'nameR', 'nameO2' , 'nameS'];
-    let filaUFCG = ['nameU', 'nameF', 'nameC', 'nameG'];
-    let filaFSM = ['nameF', 'nameS', 'nameM'];
-    let filaEECITC = ['nameE1', 'nameE2', 'nameC1', 'nameI', 'nameT' , 'nameC2'];
-    let filaIFPB = ['nameI', 'nameF', 'nameP', 'nameB'];*/
-    
-    /*FirebaseDB.ref('ordemfila').set({
-      ordemFila : ordemFila
-    });
-
-    FirebaseDB.ref('fila').set({
-      filaOUTROS : filaOUTROS,
-      filaUFCG : filaUFCG,
-      filaFSM : filaFSM,
-      filaEECITC : filaEECITC,
-      filaIFPB : filaIFPB
-    });
-
-    FirebaseDB.ref('ordemfila').once('value').then(function(snapshot) {
-      ordemFila = snapshot.val();
-    });
-
-    console.log(ordemFila);
-
-    FirebaseDB.ref('fila/' + filaName).once('value').then(function(snapshot) {
-      filaOUTROS = snapshot.val();
-    });
-
-    console.log(filaOUTROS);*/
-
-    /*let lengthX = startupX.length;
-    let lengthY = startupY.length;
-
-    let newstartupX = [];
-    let newstartupY = [];
-
-    for(let i=0; i<lengthX; i++){
-      let x = startupX[Math.floor(Math.random()*startupX.length)];
-      newstartupX.push(x);
-      let a = startupX.indexOf(x);
-      startupX.splice(a,1);
-    }
-
-    for(let i=0; i<lengthY; i++){
-      let y = startupY[Math.floor(Math.random()*startupY.length)];
-      newstartupY.push(y);
-      let a = startupY.indexOf(y);
-      startupY.splice(a,1);
-    }
-
-    console.log(newstartupX);
-    console.log(newstartupY);*/
 
   };
 
@@ -373,7 +390,7 @@ class PersistentDrawerLeft extends React.Component {
       });
     });
     
-    FirebaseDB.ref('fila/filaUFCG').once('value', function(snapshot) {
+    FirebaseDB.ref('fila/-L_Iw86swPN6dJzbhrFW').child('filaUFCG').once('value', function(snapshot) {
       snapshot.forEach(function(childSnapshot) {
         let array = ['' + childSnapshot.val()];
         self.setState({
@@ -382,7 +399,7 @@ class PersistentDrawerLeft extends React.Component {
       });
     });
 
-    FirebaseDB.ref('fila/filaFSM').once('value', function(snapshot) {
+    FirebaseDB.ref('fila/-L_KvHMY5rrXBjwpobxh').child('filaFSM').once('value', function(snapshot) {
       snapshot.forEach(function(childSnapshot) {
         let array = ['' + childSnapshot.val()];
         self.setState({
@@ -391,7 +408,7 @@ class PersistentDrawerLeft extends React.Component {
       });
     });
 
-    FirebaseDB.ref('fila/filaEECITC').once('value', function(snapshot) {
+    FirebaseDB.ref('fila/-L_KwQCWNkNa7l8csfIF').child('filaEECITC').once('value', function(snapshot) {
       snapshot.forEach(function(childSnapshot) {
         let array = ['' + childSnapshot.val()];
         self.setState({
@@ -400,7 +417,7 @@ class PersistentDrawerLeft extends React.Component {
       });
     });
 
-    FirebaseDB.ref('fila/filaIFPB').once('value', function(snapshot) {
+    FirebaseDB.ref('fila/-L_KwSbgIDFLGrDavADl').child('filaIFPB').once('value', function(snapshot) {
       snapshot.forEach(function(childSnapshot) {
         let array = ['' + childSnapshot.val()];
         self.setState({
