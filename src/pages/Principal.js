@@ -180,33 +180,102 @@ class PersistentDrawerLeft extends React.Component {
 
   componentWillMount () {
 
+    const self = this
+    const testeNome = false;
+    const nome = localStorage.getItem('userName');
+
     FirebaseAuth.onAuthStateChanged(firebaseUser =>{
       if(firebaseUser){
           console.log('true')
+
+          const date = new Date().getHours();
+          console.log(date);
+
+          if(date >= 15 && date < 17){
+            //falta o teste para ver se ja não fez a inscrição
+            FirebaseDB.ref('fila/-L_FinAVVvA0oeQD9tpR').child('filaOUTROS').once('value', function(snapshot) {
+              snapshot.forEach(function(childSnapshot) {
+                if(nome === childSnapshot.val()){
+                  testeNome = true;
+                }
+              });
+            });
+            
+            if(testeNome){
+
+            }else{
+
+              FirebaseDB.ref('fila/-L_Iw86swPN6dJzbhrFW').child('filaUFCG').once('value', function(snapshot) {
+                snapshot.forEach(function(childSnapshot) {
+                  if(nome === childSnapshot.val()){
+                    testeNome = true;
+                  }
+                });
+              });
+
+              if(testeNome){
+
+              }else{
+          
+                FirebaseDB.ref('fila/-L_KvHMY5rrXBjwpobxh').child('filaFSM').once('value', function(snapshot) {
+                  snapshot.forEach(function(childSnapshot) {
+                    if(nome === childSnapshot.val()){
+                      testeNome = true;
+                    }
+                  });
+                });
+
+                if(testeNome){
+
+                }else{
+
+                  FirebaseDB.ref('fila/-L_KwQCWNkNa7l8csfIF').child('filaEECITC').once('value', function(snapshot) {
+                    snapshot.forEach(function(childSnapshot) {
+                      if(nome === childSnapshot.val()){
+                        testeNome = true;
+                      }
+                    });
+                  });
+
+                  if(testeNome){
+
+                  }else{
+
+                    FirebaseDB.ref('fila/-L_KwSbgIDFLGrDavADl').child('filaIFPB').once('value', function(snapshot) {
+                      snapshot.forEach(function(childSnapshot) {
+                        if(nome === childSnapshot.val()){
+                          testeNome = true;
+                        }
+                      });
+                    });
+
+                    if(testeNome){
+
+                    }else{
+                      self.setState({
+                        insD: false,
+                      });
+                    }
+                  }
+                }
+              }
+            }
+          }
+
+          if(date >= 17 && date < 20){
+            self.setState({
+              resD: false,
+            });
+          }
           //window.location.href = "http://localhost:3000/Principal"
           //window.location.href = "http://onibus-tarde.firebaseapp.com/Principal"
+
       }else{
           console.log('false')
           //window.location.href = "http://localhost:3000/"
           window.location.href = "http://onibus-tarde.firebaseapp.com/"
       }
     });
-
-    const date = new Date().getHours();
-    console.log(date);
-
-    if(date >= 15 && date < 17){
-      //falta o teste para ver se ja não fez a inscrição
-      this.setState({
-        insD: false,
-      })
-    }
-
-    if(date >= 17 && date < 20){
-      this.setState({
-        resD: false,
-      })
-    }
 
   };
 
@@ -274,6 +343,9 @@ class PersistentDrawerLeft extends React.Component {
         filaOUTROS : fila2,
       });
 
+      //window.location.href = "http://localhost:3000/Principal"
+      //window.location.href = "http://onibus-tarde.firebaseapp.com/Principal"
+
     }
     if(nome3 === 'UFCG'){
       await FirebaseDB.ref('fila/-L_Iw86swPN6dJzbhrFW').child('filaUFCG').once('value', function(snapshot) {
@@ -303,6 +375,9 @@ class PersistentDrawerLeft extends React.Component {
       FirebaseDB.ref('fila/-L_Iw86swPN6dJzbhrFW').set({
         filaUFCG : fila2,
       });
+
+      //window.location.href = "http://localhost:3000/Principal"
+      //window.location.href = "http://onibus-tarde.firebaseapp.com/Principal"
       
     }
     if(nome3 === 'FSM'){
@@ -333,6 +408,9 @@ class PersistentDrawerLeft extends React.Component {
       FirebaseDB.ref('fila/-L_KvHMY5rrXBjwpobxh').set({
         filaFSM : fila2,
       });
+
+      //window.location.href = "http://localhost:3000/Principal"
+      //window.location.href = "http://onibus-tarde.firebaseapp.com/Principal"
       
     }
     if(nome3 === 'EECITC'){
@@ -363,6 +441,9 @@ class PersistentDrawerLeft extends React.Component {
       FirebaseDB.ref('fila/-L_KwQCWNkNa7l8csfIF').set({
         filaEECITC : fila2,
       });
+
+      //window.location.href = "http://localhost:3000/Principal"
+      //window.location.href = "http://onibus-tarde.firebaseapp.com/Principal"
       
     }
     if(nome3 === 'IFPB'){
@@ -393,6 +474,9 @@ class PersistentDrawerLeft extends React.Component {
       FirebaseDB.ref('fila/-L_KwSbgIDFLGrDavADl').set({
         filaIFPB : fila2,
       });
+
+      //window.location.href = "http://localhost:3000/Principal"
+      //window.location.href = "http://onibus-tarde.firebaseapp.com/Principal"
       
     }
 
