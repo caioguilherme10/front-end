@@ -148,7 +148,9 @@ class PersistentDrawerLeft extends React.Component {
       filaFSM: [],
       filaEECITC: [],
       filaIFPB: [],
-      verResultado: false
+      verResultado: false,
+      insD: true,
+      resD: true
     };
 
     this.handleClickI = this.handleClickI.bind(this);
@@ -178,6 +180,34 @@ class PersistentDrawerLeft extends React.Component {
 
   componentWillMount () {
 
+    FirebaseAuth.onAuthStateChanged(firebaseUser =>{
+      if(firebaseUser){
+          console.log('true')
+          //window.location.href = "http://localhost:3000/Principal"
+          //window.location.href = "http://onibus-tarde.firebaseapp.com/Principal"
+      }else{
+          console.log('false')
+          //window.location.href = "http://localhost:3000/"
+          window.location.href = "http://onibus-tarde.firebaseapp.com/"
+      }
+    });
+
+    const date = new Date().getHours();
+    console.log(date);
+
+    if(date >= 15 && date < 17){
+      //falta o teste para ver se ja não fez a inscrição
+      this.setState({
+        insD: false,
+      })
+    }
+
+    if(date >= 17 && date < 20){
+      this.setState({
+        resD: false,
+      })
+    }
+
   };
 
   handleDrawerOpen = () => {
@@ -192,7 +222,8 @@ class PersistentDrawerLeft extends React.Component {
     localStorage.removeItem("userName");
     localStorage.setItem("user", false);
     FirebaseAuth.signOut();
-    window.location.href = "http://localhost:3000/"
+    //window.location.href = "http://localhost:3000/"
+    window.location.href = "http://onibus-tarde.firebaseapp.com/"
   };
 
   handleChange = name => event => {
@@ -542,7 +573,7 @@ class PersistentDrawerLeft extends React.Component {
                     </CardContent>
                     <CardActions>
                       <div style={style1}>
-                        <Button name={nameButton} cor={corbutton} handleClick={this.handleClickI}></Button>
+                        <Button name={nameButton} cor={corbutton} dis={this.state.insD} handleClick={this.handleClickI}></Button>
                       </div>
                     </CardActions>
                   </Card>
@@ -567,7 +598,7 @@ class PersistentDrawerLeft extends React.Component {
                     </CardContent>
                     <CardActions>
                       <div style={style1}>
-                        <Button name={nameButtonR} cor={corbuttonS} handleClick={this.handleClickR}></Button>
+                        <Button name={nameButtonR} cor={corbuttonS} dis={this.state.resD} handleClick={this.handleClickR}></Button>
                       </div>
                     </CardActions>
                   </Card>

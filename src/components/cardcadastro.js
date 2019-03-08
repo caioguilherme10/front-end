@@ -66,7 +66,8 @@ function SimpleCard(props) {
                     name : name
                 });
 
-                window.location.href = "http://localhost:3000/Principal"
+                //window.location.href = "http://localhost:3000/Principal"
+                window.location.href = "http://onibus-tarde.firebaseapp.com/Principal"
                 //FirebaseAuth.signOut();
             }else{
                 console.log('false')
@@ -81,7 +82,7 @@ function SimpleCard(props) {
         }else{
             FirebaseAuth.createUserWithEmailAndPassword(email, senha).then(success => {
                 execute();
-                swal("Cadastro", "feito com sucesso!", "success");
+                //swal("Cadastro", "feito com sucesso!", "success");
             }).catch(error => {
                 swal("Cadastro","Erro a Cadastrar!", "error");
             })

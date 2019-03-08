@@ -59,7 +59,8 @@ function SimpleCard(props) {
                     localStorage.setItem("user", true);
                 });
 
-                window.location.href = "http://localhost:3000/Principal"
+                //window.location.href = "http://localhost:3000/Principal"
+                window.location.href = "http://onibus-tarde.firebaseapp.com/Principal"
                 //FirebaseAuth.signOut();
             }else{
                 console.log('false')
@@ -74,7 +75,7 @@ function SimpleCard(props) {
         }else{
             FirebaseAuth.signInWithEmailAndPassword(email, senha).then(success => {
                 logar();
-                swal("Login", "feito com sucesso!", "success");
+                //swal("Login", "feito com sucesso!", "success");
             }).catch(error => {
                 swal("Login","Erro a Logar!", "error");
             })

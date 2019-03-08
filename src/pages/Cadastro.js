@@ -21,11 +21,11 @@ class Cadastro extends Component {
             <Bar name={name}></Bar>
             <div style={style}>
                 <Grid container spacing={8}>
-                    <Grid item sm={3}></Grid>
-                    <Grid item sm={6}>
+                    <Grid item sm={4}></Grid>
+                    <Grid item sm={4}>
                         <Card></Card>
                     </Grid>
-                    <Grid item sm={3}></Grid>
+                    <Grid item sm={4}></Grid>
                 </Grid>
             </div>
         </div>
